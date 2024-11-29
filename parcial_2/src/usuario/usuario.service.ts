@@ -4,8 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessLogicException, BusinessError } from '../shared/errors/business-error';
 import { UsuarioEntity } from './usuario.entity/usuario.entity';
 
-
-
 @Injectable()
 export class UsuarioService {
     constructor(
@@ -14,6 +12,10 @@ export class UsuarioService {
     ) { }
 
     async crearUsuario(usuarioData: Partial<UsuarioEntity>): Promise<UsuarioEntity> {
+        if (!['Profesor', 'Decana'].includes(usuarioData.rol)) {
+            throw new BusinessLogicException('El rol debe ser "Profesor" o "Decana".', BusinessError.BAD_REQUEST);
+        }
+
         if (usuarioData.rol === 'Profesor') {
             if (!['TICSW', 'IMAGINE', 'COMIT'].includes(usuarioData.grupoInvestigacion)) {
                 throw new BusinessLogicException('El grupo de investigación debe ser (TICSW, IMAGINE o COMIT).', BusinessError.BAD_REQUEST);

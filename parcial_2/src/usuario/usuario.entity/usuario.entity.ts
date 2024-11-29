@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
-import { BonoEntity } from 'src/bono/bono.entity/bono.entity';
-import { ClaseEntity } from 'src/clase/clase.entity/clase.entity';
+import { ClaseEntity } from '../../clase/clase.entity/clase.entity';
+import { BonoEntity } from '../../bono/bono.entity/bono.entity';
 
 @Entity()
 export class UsuarioEntity {
@@ -19,8 +19,8 @@ export class UsuarioEntity {
     @Column()
     extension: number;
 
-    @Column({ type: 'enum', enum: ['Profesor', 'Decana'] })
-    rol: 'Profesor' | 'Decana';
+    @Column()
+    rol: string;
 
     @ManyToOne(() => UsuarioEntity, (usuario) => usuario.id)
     jefe: UsuarioEntity;
